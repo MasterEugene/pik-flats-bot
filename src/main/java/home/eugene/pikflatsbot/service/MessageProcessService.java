@@ -36,6 +36,10 @@ public class MessageProcessService {
   }
 
   public BotApiMethod<?> processMessage(Update update) {
+    if (update.getMessage() == null) {
+      logger.warn("message is null update: {}", update);
+      return null;
+    }
     Long chatId = update.getMessage().getChatId();
 
     AuthToken token = pikTokenService.getToken(chatId);
