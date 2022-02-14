@@ -1,0 +1,61 @@
+server:
+  port: 9000
+  servlet:
+    context-path: /
+
+
+logging:
+  level:
+    org:
+      springframework:
+        web: debug
+pik:
+  api:
+    authUrl: https://api.pik.ru/v1/auth
+  carsUrl: https://www.pik.ru/%s/cars
+
+telegrambot:
+  userName: PikFlatsBot
+  botToken: 5218763073:AAEVC35PRk0kEI3VswheSiAkcBNtH6GJEMw
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: yyznzneweawycu
+    password: 83aed47605417bd973da509530e802f5af23eaa4a15c35d82145038eb9e79246
+    url: jdbc:postgresql://ec2-34-253-29-48.eu-west-1.compute.amazonaws.com:5432/d62pi2utoiqrdu
+
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        generate_statistics: false
+        show_sql: false
+        format_sql: false
+        jdbc:
+          batch_size: 100
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/messenger
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        generate_statistics: true
+        show_sql: true
+        format_sql: true
+        jdbc:
+          batch_size: 100
