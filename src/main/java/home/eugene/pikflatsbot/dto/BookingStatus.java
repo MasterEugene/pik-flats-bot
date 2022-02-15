@@ -3,7 +3,8 @@ package home.eugene.pikflatsbot.dto;
 public enum BookingStatus {
   ACTIVE ("Доступно"),
   RESERVE ("Зарезервировано"),
-  DISABLE ("Недоступно");
+  DISABLE ("Недоступно"),
+  REMOVED ("Удалено");
 
   String statusText;
 

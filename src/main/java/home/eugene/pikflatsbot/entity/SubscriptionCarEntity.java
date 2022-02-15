@@ -12,14 +12,6 @@ public class SubscriptionCarEntity {
   public SubscriptionCarEntity() {
   }
 
-  public SubscriptionCarEntity(Integer id, Long chatId, String projectCode, Integer building, String flatNumber) {
-    this.id = id;
-    this.chatId = chatId;
-    this.projectCode = projectCode;
-    this.building = building;
-    this.flatNumber = flatNumber;
-  }
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false)
@@ -36,6 +28,12 @@ public class SubscriptionCarEntity {
 
   @Column(name = "flat_number", nullable = false)
   private String flatNumber;
+
+  @Column(name = "booking_status")
+  private String bookingStatus;
+
+  @Column(name = "price")
+  private Long price;
 
   public Integer getId() {
     return id;
@@ -55,5 +53,21 @@ public class SubscriptionCarEntity {
 
   public String getFlatNumber() {
     return flatNumber;
+  }
+
+  public String getBookingStatus() {
+    return bookingStatus;
+  }
+
+  public Long getPrice() {
+    return price;
+  }
+
+  public void setBookingStatus(String bookingStatus) {
+    this.bookingStatus = bookingStatus;
+  }
+
+  public void setPrice(Long price) {
+    this.price = price;
   }
 }

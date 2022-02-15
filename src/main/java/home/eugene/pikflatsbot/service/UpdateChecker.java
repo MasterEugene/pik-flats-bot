@@ -8,13 +8,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class UpdateChecker {
   private final PikBot pikBot;
+  private final MessageProcessService messageProcessService;
 
-  public UpdateChecker(PikBot pikBot) {
+  public UpdateChecker(PikBot pikBot, MessageProcessService messageProcessService) {
     this.pikBot = pikBot;
+    this.messageProcessService = messageProcessService;
   }
 
-  //@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+  @Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES, initialDelay = 1)
   public void check() {
-    pikBot.sendMessage("301781586", "check");
+    messageProcessService.checkSubscriptionUpdates()
+        .forEach(pikBot::sendMessage);
   }
 }
