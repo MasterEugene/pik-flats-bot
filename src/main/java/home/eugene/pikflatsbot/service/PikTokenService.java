@@ -6,9 +6,9 @@ import home.eugene.pikflatsbot.model.PikAuthRequestObject;
 import home.eugene.pikflatsbot.model.PikAuthToken;
 import home.eugene.pikflatsbot.repository.AuthDataRepository;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import javax.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,16 +36,17 @@ public class PikTokenService {
 
   @Transactional
   public AuthToken getToken(Long chatId) {
-    AuthDataEntity authData = getAuthData(chatId);
-    if (authData == null) {
+    Optional<AuthDataEntity> authData = authDataRepository.findById(chatId);
+    if (authData.isEmpty()) {
+      logger.info("Empty auth data for chat {}", chatId);
       return null;
     }
 
-    return tokenMap.compute(authData.getLogin(), (key, oldValue) -> {
+    return tokenMap.compute(authData.get().getLogin(), (key, oldValue) -> {
       if (oldValue != null && oldValue.getTimeExpired() > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1)) {
         return oldValue;
       }
-      return createToken(key, authData.getPassword());
+      return createToken(key, authData.get().getPassword());
     });
   }
 
@@ -59,14 +60,5 @@ public class PikTokenService {
       return new AuthToken(login, pikAuthToken.token(), TimeUnit.SECONDS.toMillis(pikAuthToken.expiresIn()));
     }
     throw new RuntimeException(String.format("Pik auth api return status %s for user %s", authTokenResponse.getStatusCodeValue(), login));
-  }
-
-  private AuthDataEntity getAuthData(Long chatId) {
-    try {
-      return authDataRepository.getById(chatId);
-    } catch (EntityNotFoundException e) {
-      logger.info("Empty auth data for chat {}", chatId);
-      return null;
-    }
   }
 }

@@ -25,7 +25,6 @@ spring:
     password: 83aed47605417bd973da509530e802f5af23eaa4a15c35d82145038eb9e79246
     url: jdbc:postgresql://ec2-34-253-29-48.eu-west-1.compute.amazonaws.com:5432/d62pi2utoiqrdu
 
-
   jpa:
     hibernate:
       ddl-auto: none
@@ -36,7 +35,6 @@ spring:
         format_sql: false
         jdbc:
           batch_size: 100
-
 
 ---
 spring:
